@@ -17,7 +17,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (!movies.has(key)) throw new Error('Unknown movie: ' + key);
   const player = window.RufflePlayer.newest().createPlayer();
   container.appendChild(player);
-  await player.ruffle().load(encodeURIComponent(movies.get(key)));
+  const url = new URL(encodeURIComponent(movies.get(key)), location.href);
+  url.searchParams.set("v", "3");
+  document.title = movies.get(key);
+  console.info("Loading SWF:", url.href);
+  await player.ruffle().load(url.href);
  } catch (err) { container.textContent = String(err); }
 });
 </script></body></html>
